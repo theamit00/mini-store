@@ -2,7 +2,7 @@
 
     <h1>Cart items</h1>
 
-    <% if(cart.products.length > 0 ) {%>
+    <% if(cart && cart.products.length > 0 ) {%>
         <% cart.products.forEach(product => { %>
         
             <div class="item-container">

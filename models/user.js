@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-
+const findOrCreate = require('mongoose-findorcreate')
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -19,7 +19,7 @@ const userSchema = new Schema({
 
     password : {
         type : String,
-        required : true
+        // required : true
     },
 
     role : {
@@ -37,6 +37,10 @@ const userSchema = new Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref: 'Cart'
     },
+    googleId: {
+        type: String,
+        default: null
+    }
 })
 
 
@@ -97,6 +101,8 @@ userSchema.pre('save', async function(next){
     this.password = await bcrypt.hash(this.password, 12)
     next();
 })
+
+userSchema.plugin(findOrCreate);
 
 const User = mongoose.model('User',userSchema);
 

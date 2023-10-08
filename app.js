@@ -12,10 +12,11 @@ const PORT = process.env.PORT || 8080;
 // Database connection
 require('./config/connectDB');
 
+app.use(passport.initialize());
+
 // pass the global passport object into the configuration function
 require('./config/passport');
 
-app.use(passport.initialize());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));

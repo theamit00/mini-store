@@ -3,11 +3,15 @@ const User = require('../models/user');
 const JwtStrategy = require('passport-jwt').Strategy;
 // const ExtractJwt = require('passport-jwt').ExtractJwt;
 
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+
+// -----------Configure Jwt Strategy
+
 // i m saving token in the cookies that's why i have defined my custom jwt extractor
 // for more go to docs
 const cookieExtractor = function(req) {
 
-    // console.log(req.signedCookies);
     let token = null;
     if (req && req.signedCookies) {
         token = req.signedCookies.AT;
@@ -38,6 +42,35 @@ const verifyCallBack = async function(payload, done){
     }
 }
 
-const strategy = new JwtStrategy(options, verifyCallBack);
+const jwtStrategy = new JwtStrategy(options, verifyCallBack);
 
-passport.use(strategy);
+passport.use(jwtStrategy);
+
+
+// --------------Configure Google Strategy-------------
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: "http://localhost:8080/user/auth/google/callback",
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    // console.log(profile);
+
+    const {_json} = profile;
+
+    console.log(profile);
+
+    const user = {
+
+        username : _json.name,
+        email : _json.email,
+        googleId : _json.sub,
+    }
+
+    User.findOrCreate(user, function (err, user) {
+      return cb(null, user);
+    });
+    
+  }
+));

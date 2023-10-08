@@ -145,6 +145,11 @@ router.post('/checkout', isLoggedIn, async (req, res) => {
             let totalAmount = (cart.bill + (cart.bill*(cart.gst/100))).toFixed(2);
             const changeInBalance = totalAmount;
             
+            if(totalAmount > user.balance) {
+
+                return res.send('Low balance');
+            }
+
             cart.products.forEach(async (product)=>{
                 const foundProduct = await Product.findById(product.productId);
                 foundProduct.quantity--;
