@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+
+    <h1>Show Single Product</h1>
+
+    <div class="img-wrapper">
+        <img src="<%= product.image %>" alt="">
+    </div>
+
+    <div>
+        <h2><%= product.name %></h2>
+        <h4><span><b>&#8377</b></span><%= product.price %><span></span></h4>
+        <p><%= product.description %></p>
+    </div>
+
+    <% if(user && user.role === 'admin') {%>
+        <div>
+            <button><a href="/product/<%= product._id %>/edit">Edit Product</a></button>
+    
+            <form action="/product/<%= product._id %>?_method=DELETE" method="POST">
+                <button type="submit">Delete Product</button>
+            </form>
+        </div>
+    <% }else{ %>
+        <div>
+            <form action="/cart" method="POST">
+                <input type="hidden" name = "productId" value="<%= product._id%>">
+                <input type="hidden" name = "quantity" value= "1">
+                <button type="submit">Add to cart</button>
+            </form>
+        </div>
+    <% } %>
+
+
+
+<%- include('../partials/footer') %>

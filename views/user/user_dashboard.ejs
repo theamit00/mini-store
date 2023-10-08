@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+
+    <h1>Welcome <%= user.username %></h1>
+
+    <h3>Your balance is : <%= user.balance %></h3>
+    
+    <button id="addFundsButton">Add Funds</button>
+    <form action="/user/<%= user._id %>/balance?_method=PUT" method="POST" id="addFundsForm">
+        <input type='number' name = "amount" placeholder= "Amount to add"/>
+        <button type="submit">Add Funds</button>
+    </form>
+
+<%- include('../partials/footer') %>

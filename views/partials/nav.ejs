@@ -1,0 +1,57 @@
+<!-- <nav>
+    <div class="menus">
+        <%# if(user) {%>
+            <%# if(user.role==="admin" ) {%>
+                <div class="menu-item"><a href="/">Product</a></div>
+                <div class="menu-item"><a href="/new">Add Product</a></div>
+                <div class="menu-item"><a href="/admin/">Profile</a></div>
+                <%# } else {%>
+                    <div class="menu-item"><a href="/">Product</a></div>
+                    <div class="menu-item"><a href="/user/">Profile</a></div>
+                    <div class="menu-item"><a href="/cart/">Cart</a></div>
+                    <%# } %>
+                        <form action="/user/logout" class="menu-item" method="POST">
+                            <button class="nav-link" type="submit">Logout</button>
+                        </form>
+                        <%# } else {%>
+                            <div class="menu-item"><a href="/">Product</a></div>
+                            <div class="menu-item"><a href="/user/login">Login</a></div>
+                            <%# } %>
+    </div>
+</nav> -->
+
+<nav class="navbar sticky-top bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">MiniStore</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="/">Product</a>
+          <% if(user) {%>
+            <% if(user.role === "admin") {%>
+                <a class="nav-link" href="/new">Add Product</a>
+                <a class="nav-link" href="/admin/">Profile</a>
+            <% } else {%>
+                <a class="nav-link" href="/user/">Profile</a>
+                <a class="nav-link" href="/cart">Cart</a>
+            <% } %>
+        <% }%>
+        </div>
+
+        <div class="navbar-nav ms-auto">
+         <% if(!user) {%>
+            <a class="nav-link" href="/user/login">Login</a>
+            <a class="nav-link" href="/user/register">Register</a>
+          <% } else {%>
+            <!-- <form action="/user/logout"  class="menu-item" method="POST"> -->
+                <!-- <button class="nav-link" type="submit">Logout <%# user.username %></button> -->
+                <a class="nav-link" href="/user/logout">Logout</a>
+            <!-- </form> -->
+          <% } %>
+
+        </div>
+      </div>
+    </div>
+  </nav> 

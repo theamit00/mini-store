@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+
+    <h1>All products</h1>
+
+    <% products.forEach((product) => { %>
+        <% if(product.quantity > 0) {%>
+            <a href="/product/<%= product._id %>">
+                <div class="card">
+                    <img src="<%= product.image %>" alt="" class="card-image">
+                    <h2 class="card-title">
+                        <%= product.name %>
+                    </h2>
+                    <h4><span><b>Rs.</b></span><%= product.price %><span></span></h4>
+                </div>
+            </a>
+        <% } %>
+    <% }); %>
+
+
+<%- include('../partials/footer') %>
+
+

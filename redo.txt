@@ -1,0 +1,138 @@
+const express = require('express');
+const { returnTo, isLoggedIn } = require('../middleware');
+const Cart = require('../models/cart');
+const Product = require('../models/product');
+const { createToken, verifyToken } = require('../utilities/token');
+const product = require('../models/product');
+const router = express.Router();
+
+router.use(async (req,res,next)=>{
+
+    const token = req.signedCookies.AT;
+
+    const user = await verifyToken(token);
+
+    if(user.role === 'admin') return res.status(401).send(`Sorry you don't have accces to this route`)
+
+    next();
+})
+
+router.get('/',async (req,res)=>{
+
+    try {
+        const token = req.signedCookies.CT;
+        let cart = null;
+        if(token){
+            const {cartId} = await verifyToken(token);
+            if(cartId){
+                cart = await Cart.findById(cartId).populate('products.productId');
+                // return res.send(cart);
+            }
+        }
+
+        res.render('other/cart',{cart});
+        // res.json(cart)
+    } catch (error) {
+        console.log(error);
+    }
+
+})
+
+router.post('/',async (req,res)=>{
+
+    try {
+        const {AT,CT} = req.signedCookies;
+        const {productId, quantity} = req.body;
+        const foundProduct = await Product.findById(productId);
+
+        if(!foundProduct){
+            res.status(404).send('Product not found');
+            return;
+        }
+
+        const price = foundProduct.price;
+        const name = foundProduct.name;
+        const image = foundProduct.image;
+        let cart = null;
+
+        // if cart already exist
+
+        if(CT){
+            const {cartId} = await verifyToken(CT);
+            cart = await Cart.findById(cartId).populate('products.productId');
+
+            // res.send(cart);
+        }
+        if(cart){
+            const productIndex = cart.products.findIndex((product)=>{
+                return product.productId == productId;
+            })
+
+            // check if product is already Exist
+            if(productIndex > -1){
+
+                let product = cart.products[productIndex];
+                product.quantity += +quantity;
+
+                cart.bill = cart.products.reduce((previous, current)=>{
+
+                    // let quantity = +current.quantity;
+                    // let price = +current.productId.price;
+                    return previous + (current.quantity * current.price);
+                },0);
+                cart.products[productIndex] = product;
+
+                return res.send(cart);
+
+                // await cart.save();
+                // return res.redirect('/cart');
+            }            
+            else{
+
+                cart.products.push({productId, name, image, quantity, price});
+                cart.bill = cart.products.reduce((previous,current)=>{
+
+                    // let quantity = +current.quantity;
+                    // let price = +current.productId.price;
+                    // return previous + (quantity * price);
+                    return previous + (current.quantity * +current.price);
+                },0)
+
+                await cart.save();
+                return res.redirect('/cart');
+            }
+        }
+        // if no cart exist
+        else{
+            const newCart = new Cart({
+                products : [{productId, name, image,quantity, price}],
+                bill : quantity * price,
+            })
+
+            cart = await newCart.save();
+            
+        }
+        const newToken = await createToken({cartId : cart._id});
+    
+        res.cookie('CT', newToken, {
+            expires : new Date(Date.now() + 1000 * 60 * 30),
+            httpOnly : true,
+            signed : true
+        })
+    
+        res.redirect('/cart');
+        // console.log(cart);
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.post('/checkout', isLoggedIn ,async (req,res)=>{
+
+    // const returnTo = res.locals.returnTo;    
+    // console.log(returnTo);
+
+    res.send('successfully checkedOut')
+})
+
+module.exports = router

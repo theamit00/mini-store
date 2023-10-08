@@ -1,0 +1,45 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+#addFundsForm{
+    display: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+a{
+    text-decoration: none;
+}
+
+/* .warning{
+    color: red;
+}
+
+nav .menus{
+    display: flex;
+    align-items: center;
+}
+
+nav .menu-item{
+    margin: 5px 10px;
+}
+
+nav div form{
+    align-self: flex-end;
+} */

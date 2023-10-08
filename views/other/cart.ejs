@@ -1,0 +1,47 @@
+<%- include('../partials/header')%>
+
+    <h1>Cart items</h1>
+
+    <% if(cart.products.length > 0 ) {%>
+        <% cart.products.forEach(product => { %>
+        
+            <div class="item-container">
+                <div class="img-wrapper">
+                    <img src="<%= product.image %>" alt="">
+                </div>
+            
+                <div>
+                    <h2><%= product.name %></h2>
+                    <h3>Qty:<%= product.quantity %></h3>
+                    <h3><span><b>&#8377</b></span><%= product.price %><span></span></h3>
+                </div>
+            </div>
+
+        <% }); %>
+
+        <div class="bill-details">
+            <h3>Price Details(<%= cart.products.length %> Items)</h3>
+            <div class="row">
+                <p>Total MRP:<span><%= cart.bill %></span></p>
+            </div>
+            <div class="row">
+                <p>Gst(<%= cart.gst %>%):<span><%= (cart.bill*(cart.gst/100)).toFixed(2) %></span></p>
+            </div>
+
+            <div class="row">
+                <h3>Total Amount:<span><%= (cart.bill + (cart.bill*(cart.gst/100))).toFixed(2) %></span></h3>
+            </div>
+        </div>
+
+        <form action="/cart/checkout" class="checkout" method="POST">
+
+            <input type="hidden" name="totalAmount" value="<%= (cart.bill + (cart.bill*(cart.gst/100))).toFixed(2) %>">
+            <button type="submit">Checkout</button>
+        </form>
+
+    <% }else {%>
+        <p style='color:#ff0f4c'>No products in the Cart!</p>
+    <% }%>
+
+
+<%- include('../partials/footer') %>
