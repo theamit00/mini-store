@@ -32,50 +32,29 @@ const validateProduct = (req,res,next)=>{
 }
 
 
-// const isLoggedIn = async (req,res,next)=>{
-
-//     let requestedUrl = req.originalUrl === '/cart/checkout'? '/cart' : '';
-
-//     res.cookie('strl', requestedUrl, {
-//         expires : new Date(Date.now() + 1000 * 60),
-//         httpOnly : true,
-//         signed : true
-//     })
-
-//     try {
-//         const token = req.signedCookies.AT;
-
-//         const {_id} = await verifyToken(token);
-
-//         const user = await User.findById(_id);
-    
-//         if(!user){
-//             console.log('You must be logged in');
-//             return res.redirect('/user/login');
-//         }
-
-//         req.user = user;
-//         next();
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
-
 const isLoggedIn = async function(req, res, next){
-    passport.authenticate('jwt', function(err, user, info) {
-        if (err) return next(err);
+    // passport.authenticate('jwt', function(err, user, info) {
+    //     if (err) return next(err);
 
-        if (!user){
-            console.log('You must be logged in');
-            return res.redirect('/user/login');
-        }
+    //     if (!user){
+    //         console.log('You must be logged in');
+    //         return res.redirect('/user/login');
+    //     }
 
-        req.user = user;
+    //     req.user = user;
 
-        next();
+    //     next();
 
-    })(req, res, next);
+    // })(req, res, next);
+
+    if(req.isAuthenticated()){
+
+        return next();
+    }else{
+        console.log('You must be logged in');
+        return res.redirect('/user/login');
+    }
+
 };
 
 const isAdmin = (req,res,next)=>{

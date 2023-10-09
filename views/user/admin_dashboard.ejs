@@ -2,4 +2,10 @@
 
     <h1>Welcome <%= admin.username %></h1>
 
+    <button id="updateionButton" class="btn btn-primary mt-3">Update Gst</button>
+    <form action="/products?_method=PATCH" class="col-5 mt-3" method="POST" id="updateionForm">
+        <input type='number' class="form-control mb-3" name="gst" placeholder= "Gst"/>
+        <button type="submit" class="btn btn-success ">Update Gst</button>
+    </form>
+
 <%- include('../partials/footer') %>

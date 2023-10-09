@@ -75,14 +75,23 @@ app.use('/cart',cartRoutes);
 app.use('/admin',adminRoutes);
 
 
-app.get('*', (req,res)=>{
+app.all('*', (req,res)=>{
 
     res.status(404).render('error/pagenotfound');
 
 })
 
-app.post('*', (req,res)=>{
-    res.status(404).render('error/pagenotfound');
+// Error handler 
+app.use((err,req,res,next)=>{
+
+    // console.log(err);
+    // const {status = 500} = err; // default error
+
+    // if(!err) err.message = 'Hamra Code Phat Gya';
+
+    // console.log('phat gaya');
+
+    res.send(err);
 })
 
 // Start Server

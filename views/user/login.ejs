@@ -1,36 +1,49 @@
 <%- include('../partials/header') %>
-    
-    <h1>Login!!!</h1>
 
-    <form action="/user/login" method="post">
+<div class="row col-9 mx-auto mt-5">
+    <div class="col-6 offset-3">
+        <h1 class="text-center text-secondary">Login</h1>
+        <form action="/user/login" method="POST" class="validated-form" novalidate>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn col-2 btn-success">Login</button>
+            </div>
+        </form>
 
         <div>
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required>
+            <p class="text-secondary">Don't have any account? <a href="/user/register" class="link-primary">Register</a></p>
         </div>
 
-        <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
+        <div class="mt-5">
+                <a href="/user/auth/google" class="btn btn-lg col-10 p-2 offset-1 btn-google">
+                    <i class="fab fa-google"></i>
+                    Log In with Google
+                </a>
         </div>
 
-        <button type="submit">Login</button>
-
-    </form>
-
-    <div>
-        <p>Don't have any account? <a href="/user/register">Register</a></p>
     </div>
+</div>
+    
 
-    <div class="col-sm-4">
-        <div class="card">
-          <div class="card-body">
-            <a class="btn btn-block btn-social btn-google" href="/user/auth/google" role="button">
-              <i class="fab fa-google"></i>
-              Log In with Google
-            </a>
-          </div>
-        </div>
-      </div>
+    
 
-<%- include('../partials/footer') %>
+    <%- include('../partials/footer') %>
+
+
+        

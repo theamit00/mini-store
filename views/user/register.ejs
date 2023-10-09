@@ -1,41 +1,52 @@
 <%- include('../partials/header') %>
     
-    <h1>Register!!!</h1>
+    <div class="row col-9 mx-auto mt-5">
+      <div class="col-6 offset-3">
+          <h1 class="text-center text-secondary mb-3">Register</h1>
+          <form action="/user/register" method="POST" class="validated-form" novalidate>
+  
+              <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control" name="username" id="username" required>
+                  <div class="valid-feedback">
+                      Looks good!
+                  </div>
+              </div>
+  
+              <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" name="email" id="email" required>
+                  <div class="valid-feedback">
+                      Looks good!
+                  </div>
+              </div>
 
-    <form action="/user/register" method="post">
-
-        <div>
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required>
-        </div>
-
-        <div>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
-        </div>
-
-        <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
-        </div>
-
-        <button type="submit">Register</button>
-
-    </form>
-
-    <div>
-        <p>Already Have an account? <a href="/user/Login">Login</a></p>
-    </div>
-
-    <div class="col-sm-4">
-        <div class="card">
-          <div class="card-body">
-            <a class="btn btn-block btn-social btn-google" href="/user/auth/google" role="button">
-              <i class="fab fa-google"></i>
-              Log In with Google
-            </a>
+              <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" name="password" id="password" required>
+                  <div class="valid-feedback">
+                      Looks good!
+                  </div>
+              </div>
+  
+              <div class="mb-3">
+                  <button type="submit" class="btn col-2 btn-success">Register</button>
+              </div>
+          </form>
+  
+          <div>
+              <p class="text-secondary">Already Have an account?  <a href="/user/login" class="link-primary">Login</a></p>
           </div>
-        </div>
+  
+          <div class="mt-5">
+                  <a href="/user/auth/google" class="btn btn-lg col-10 p-2 offset-1 btn-google">
+                      <i class="fab fa-google"></i>
+                      Register with Google
+                  </a>
+          </div>
+  
       </div>
+  </div>
+
 
 <%- include('../partials/footer') %>

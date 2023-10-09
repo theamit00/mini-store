@@ -4,6 +4,7 @@ const JwtStrategy = require('passport-jwt').Strategy;
 // const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 
 // -----------Configure Jwt Strategy
@@ -72,5 +73,24 @@ passport.use(new GoogleStrategy({
       return cb(null, user);
     });
     
+  }
+));
+
+
+// --------------Configure Facebook Strategy-------------
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FB_APP_ID,
+    clientSecret: process.env.FB_APP_SECRET,
+    callbackURL: "http://localhost:8080/user/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+
+    console.log(profile);
+
+    const user = {};
+    // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(null, {});
+    // });
   }
 ));

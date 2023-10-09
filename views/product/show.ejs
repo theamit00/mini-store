@@ -1,35 +1,61 @@
 <%- include('../partials/header') %>
 
-    <h1>Show Single Product</h1>
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-10 mb-3">
+            <div class="card d-flex flex-row flex-wrap mb-3">
+                <div class="col-6">
+                    <img src="<%= product.image %>" class="img-fluid col-12 rounded-top-0 rounded-start" stylle="object-fit:cover" alt="">
+                </div>
 
-    <div class="img-wrapper">
-        <img src="<%= product.image %>" alt="">
+                <div class="col-6 d-flex flex-column px-5">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <%= product.name %>
+                        </h2>
+                        <h4><span>&#8377</span>
+                            <%= product.price %><span></span>
+                        </h4>
+                        <p>
+                            <%= product.description %>
+                        </p>
+                    </div>
+
+                    <% if(user && user.role==='admin' ) {%>
+                        <div class="d-flex flex-column p-3 col-12 gap-2 mx-auto">
+
+                            <p class="text-secondary fs-5 ">Qty: <%= product.quantity %></p>
+
+                            <button class="btn col-12 btn-warning"><a href="/product/<%= product._id %>/edit" >Edit Product</a></button>
+
+                            <form action="/product/<%= product._id %>?_method=DELETE" class="d-grid col-12 mx-auto" method="POST">
+                                <button type="submit" class="btn btn-danger" >Delete Product</button>
+                            </form>
+                        </div>
+                    <% }else{ %>
+                        <div class="d-flex flex-column p-3 col-12 gap-2 mx-auto">
+
+                            <% if(product.quantity > 0) {%>
+                                <form action="/cart" class="d-grid col-12 mx-auto" method="POST">
+                                    <input type="hidden" name="productId" value="<%= product._id%>">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </form>
+                            <% } else {%>
+                                <a href="#" class="btn btn-outline-dark text-danger disabled">Out of Stock!</a>
+                            <% } %>
+
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div>
-        <h2><%= product.name %></h2>
-        <h4><span><b>&#8377</b></span><%= product.price %><span></span></h4>
-        <p><%= product.description %></p>
-    </div>
 
-    <% if(user && user.role === 'admin') {%>
-        <div>
-            <button><a href="/product/<%= product._id %>/edit">Edit Product</a></button>
     
-            <form action="/product/<%= product._id %>?_method=DELETE" method="POST">
-                <button type="submit">Delete Product</button>
-            </form>
-        </div>
-    <% }else{ %>
-        <div>
-            <form action="/cart" method="POST">
-                <input type="hidden" name = "productId" value="<%= product._id%>">
-                <input type="hidden" name = "quantity" value= "1">
-                <button type="submit">Add to cart</button>
-            </form>
-        </div>
-    <% } %>
 
 
 
-<%- include('../partials/footer') %>
+    <%- include('../partials/footer') %>
+
+   

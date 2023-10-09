@@ -4,10 +4,10 @@
 
     <h3>Your balance is : <%= user.balance %></h3>
     
-    <button id="addFundsButton">Add Funds</button>
-    <form action="/user/<%= user._id %>/balance?_method=PUT" method="POST" id="addFundsForm">
-        <input type='number' name = "amount" placeholder= "Amount to add"/>
-        <button type="submit">Add Funds</button>
+    <button id="updateionButton" class="btn btn-primary mt-3">Add Funds</button>
+    <form action="/user/<%= user._id %>/balance?_method=PUT" class="col-5 mt-3" method="POST" id="updateionForm">
+        <input type='number' class="form-control mb-3" name="amount" placeholder= "Amount to add"/>
+        <button type="submit" class="btn btn-success ">Add Funds</button>
     </form>
 
 <%- include('../partials/footer') %>

@@ -2,46 +2,55 @@
 
     <h1>Cart items</h1>
 
-    <% if(cart && cart.products.length > 0 ) {%>
-        <% cart.products.forEach(product => { %>
+    <div class="row d-flex flex-row justify-content-between align-items-start">
         
-            <div class="item-container">
-                <div class="img-wrapper">
-                    <img src="<%= product.image %>" alt="">
+        <% if(cart && cart.products.length > 0 ) {%>
+                <div class="col-8">
+                    <% cart.products.forEach(product => { %>
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-4" >
+                                    <img src="<%= product.image %>" class="img-fluid rounded-start" style="max-width: 18rem;" alt="">
+                                </div>
+                            
+                                <div class="col-8 p-3">
+                                    <div    class="card-body">
+                                    <h3><%= product.name %></h3>
+                                    <h4>Qty:<%= product.quantity %></h4>
+                                    <h3><span><b>&#8377</b></span><%= product.price %><span></span></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
                 </div>
+
+                <div class="col-4 card p-4 mb-3">
+                    <div class="bill-details card-body mb-3">
+                        <h3 class="card-title" >Price Details(<%= cart.products.length %> Items)</h3>
+    
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-secondary d-flex justify-content-between "><span>Total MRP:</span><span>&#8377;<%= cart.bill %></span></li>
+                            <li class="list-group-item text-secondary d-flex justify-content-between "><span>Gst(<%= cart.gst %>%):</span><span>&#8377;<%= (cart.bill*(cart.gst/100)).toFixed(2) %></span></li>
+                        </ul>
             
-                <div>
-                    <h2><%= product.name %></h2>
-                    <h3>Qty:<%= product.quantity %></h3>
-                    <h3><span><b>&#8377</b></span><%= product.price %><span></span></h3>
+                        <div class="row">
+                            <h5 class="card-text d-flex justify-content-between"><span>Total Amount:</span><span>&#8377;<%= (cart.bill + (cart.bill*(cart.gst/100))).toFixed(2) %></span></h5>
+                        </div>
+                    </div>
+            
+                    <form action="/cart/checkout" class="checkout d-grid col-12 max-auto " method="POST">
+            
+                        <input type="hidden" name="totalAmount" value="<%= (cart.bill + (cart.bill*(cart.gst/100))).toFixed(2) %>">
+                        <button type="submit" class="btn btn-success">Checkout</button>
+                    </form>
                 </div>
-            </div>
+                
+        <% }else {%>
+            <p style='color:#ff0f4c'>No products in the Cart!</p>
+        <% }%>
 
-        <% }); %>
-
-        <div class="bill-details">
-            <h3>Price Details(<%= cart.products.length %> Items)</h3>
-            <div class="row">
-                <p>Total MRP:<span><%= cart.bill %></span></p>
-            </div>
-            <div class="row">
-                <p>Gst(<%= cart.gst %>%):<span><%= (cart.bill*(cart.gst/100)).toFixed(2) %></span></p>
-            </div>
-
-            <div class="row">
-                <h3>Total Amount:<span><%= (cart.bill + (cart.bill*(cart.gst/100))).toFixed(2) %></span></h3>
-            </div>
-        </div>
-
-        <form action="/cart/checkout" class="checkout" method="POST">
-
-            <input type="hidden" name="totalAmount" value="<%= (cart.bill + (cart.bill*(cart.gst/100))).toFixed(2) %>">
-            <button type="submit">Checkout</button>
-        </form>
-
-    <% }else {%>
-        <p style='color:#ff0f4c'>No products in the Cart!</p>
-    <% }%>
+    </div>
 
 
 <%- include('../partials/footer') %>

@@ -57,7 +57,6 @@ router.get('/product/:id', async (req,res,next)=>{
         res.render('product/show', {product, user});
     } catch (error) {
         next(error)
-        // console.log(error);
     }
 })
 
@@ -80,7 +79,7 @@ router.get('/product/:id/edit', isLoggedIn, isAdmin,async (req,res,next)=>{
 })
 
 
-router.put('/product/:id/edit', isLoggedIn, isAdmin, async (req,res,next)=>{
+router.patch('/product/:id/edit', isLoggedIn, isAdmin, validateProduct, async (req,res,next)=>{
 
     try {
         const {id} = req.params;
@@ -105,6 +104,14 @@ router.delete('/product/:id', isLoggedIn, isAdmin, async (req,res,next)=>{
     catch(error){
         next(error);
     }
+})
+
+router.patch('/products', isLoggedIn, isAdmin, async (req,res)=>{
+
+    const {gst} = req.body;
+
+    res.send(gst);
+
 })
 
 module.exports = router;

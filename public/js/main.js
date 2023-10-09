@@ -1,10 +1,10 @@
-const addFundsForm = document.getElementById('addFundsForm');
-const addFundsButton = document.getElementById('addFundsButton');
+const updateionForm = document.getElementById('updateionForm');
+const updateionButton = document.getElementById('updateionButton');
 
 
-addFundsButton.addEventListener('click',()=>{
+updateionButton.addEventListener('click',()=>{
 
-    addFundsForm.style.display = 'block';
-    addFundsButton.style.display = 'none';
+    updateionForm.style.display = 'block';
+    updateionButton.style.display = 'none';
 
 })

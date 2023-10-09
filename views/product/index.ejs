@@ -1,20 +1,27 @@
 <%- include('../partials/header') %>
 
-    <h1>All products</h1>
+    <h1 class="mb-3" >All products</h1>
 
-    <% products.forEach((product) => { %>
-        <% if(product.quantity > 0) {%>
-            <a href="/product/<%= product._id %>">
-                <div class="card">
-                    <img src="<%= product.image %>" alt="" class="card-image">
-                    <h2 class="card-title">
-                        <%= product.name %>
-                    </h2>
-                    <h4><span><b>Rs.</b></span><%= product.price %><span></span></h4>
+    <div class="container col-12 d-flex flex-wrap ">
+        <% products.forEach((product) => { %>
+            <%# if(product.quantity > 0) {%>
+                <div class="card col-3 m-3" >
+                    <a href="/product/<%= product._id %>" class="text-secondary" >
+                        <div class="row g-2">
+                            <img src="<%= product.image %>" class="img-fluid card-img-top " style="height: 16rem;" alt="...">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"><%= product.name %></h4>
+                            <h5 class="card-text" ><span><b>&#8377</b></span><%= product.price %><span></span></h5>
+                        </div>  
+                    </a>         
                 </div>
-            </a>
-        <% } %>
-    <% }); %>
+            <%# } %>
+        <% }); %>
+    </div>
+
+        
+   
 
 
 <%- include('../partials/footer') %>

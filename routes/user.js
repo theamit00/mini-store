@@ -7,9 +7,11 @@ const {validateUser, isLoggedIn, returnTo} = require('../middleware');
 const {createToken} = require('../utilities/token');
 const { handleLoginUser, handleLogoutUser, getLoginPage } = require('../controllers/user');
 
-const googleAuth = require("./googleAuth");
+const googleAuth = require('./googleAuth');
+const fbAuth = require('./fbAuth')
 
 router.use('/auth', googleAuth);
+router.use('/auth', fbAuth);
 
 router.get('/', isLoggedIn, (req,res)=>{
 

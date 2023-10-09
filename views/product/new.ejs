@@ -1,38 +1,62 @@
 <%- include('../partials/header') %>
 
+        <div class="row">
+            <h1 class="text-center text-secondary">New Product</h1>
+            <div class="col-6 offset-3">
+                <form action="/new" method="POST" class="validated-form" novalidate>
 
-    <h1>Add New Product</h1>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
 
-    <form action="/new" method="POST">
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="text" class="form-control" name="image" id="image" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
 
-        <div>
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" required>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="price-label">&#8377;</span>
+                            <input type="number" class="form-control" id="price" placeholder="0.00" aria-label="Price"
+                                aria-describedby="price-label" name="price" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label" >Quantity</label>
+                        <input type="number" class="form-control" name="quantity" id="quantity" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea type="text" class="form-control" name="description" id="description"
+                            required></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-success">Add Product</button>
+                    </div>
+
+                </form>
+            </div>
+
         </div>
 
-        <div>
-            <label for="image">Image</label>
-            <input type="text" name="image" id="image" required>
-        </div>
-
-        <div>
-            <label for="price">Price</label>
-            <input type="text" name="price" id="price" required>
-        </div>
-
-        <div>
-            <label for="quantity">Quantity</label>
-            <input type="text" name="quantity" id="quantity" required>
-        </div>
-
-        <div>
-            <label for="description">Description</label>
-            <textarea name="description" id="description" cols="30" rows="5" required></textarea>
-        </div>
-
-        <button type="submit">Add Product</button>
-        
-    </form>
-    
-
-<%- include('../partials/footer') %>
+    <%- include('../partials/footer') %>
