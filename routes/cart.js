@@ -4,32 +4,26 @@ const Cart = require('../models/cart');
 const Product = require('../models/product');
 // const { createToken, verifyToken } = require('../utilities/token');
 const User = require('../models/user');
+const ExpressError = require('../utilities/ExpressError');
 const router = express.Router();
 
-router.use(async (req, res, next) => {
+router.use((req, res, next) => {
 
-    try {
-        // const token = req.signedCookies.AT;
+    const user = req.user;
 
-        // const user = await verifyToken(token);
+    if (user && user.role === 'admin') {
+        
 
-        const user = req.user;
+        const message = `Sorry you don't have accces to this route`;
+        // return res.status(401).send(`Sorry you don't have accces to this route`);
+        throw new ExpressError(message,401);
+    } else {
 
-        if (user && user.role === 'admin') {
-            
-            return res.status(401).send(`Sorry you don't have accces to this route`);
-        } else {
-
-            next();
-        }
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Something Went Wrong')
+        next();
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', isLoggedIn, async (req, res, next) => {
     try {
         const owner = req.user;
 
@@ -46,16 +40,15 @@ router.get('/', async (req, res) => {
         res.render('other/cart', { cart });
         // res.json(cart)
     } catch (error) {
-        console.log(error);
-        res.status(500).send('Something went Wrong');
+        // console.log(error);
+        next(error)
     }
 
 })
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
 
     try {
-        // const {CT} = req.signedCookies;
         const owner = req.user;
         const { productId, quantity } = req.body;
         const foundProduct = await Product.findById(productId);
@@ -119,7 +112,6 @@ router.post('/', async (req, res) => {
                 })
 
                 cart = await newCart.save();
-
             }
             cart.owner = owner._id;
             await cart.save();
@@ -130,11 +122,11 @@ router.post('/', async (req, res) => {
             res.redirect('/user/login')
         }
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 })
 
-router.post('/checkout', isLoggedIn, async (req, res) => {
+router.post('/checkout', isLoggedIn, async (req, res, next) => {
 
     try {
         const user = req.user;
@@ -166,7 +158,8 @@ router.post('/checkout', isLoggedIn, async (req, res) => {
 
         res.render('other/checkedOut',{success:true});
     } catch (error) {
-        res.status(500).send('Something Went Wrong')
+        // res.status(500).send('Something Went Wrong')
+        next(error);
     }
 })
 

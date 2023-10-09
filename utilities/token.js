@@ -21,7 +21,7 @@ const createToken = async function(user){
     }
     catch(error){
      console.log("Error in creating Token", error);
-     return false;
+     return error;
     }
 }
 
@@ -34,7 +34,7 @@ const verifyToken = async function(token){
         return decode;
     } catch (error) {
         console.log(error);
-        return false;
+        return error;
     }
 
 }

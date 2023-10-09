@@ -25,7 +25,11 @@ router.get('/', isLoggedIn, (req,res)=>{
 
 router.get('/register', (req,res)=>{
 
-    res.render('user/register');
+    if(!req.user){
+        // console.log(req.user);
+        res.render('user/register');
+    }
+    res.redirect('/');
 
 })
 
@@ -34,6 +38,12 @@ router.post('/register', validateUser, async (req,res,next)=>{
     try {
         
         const {username, email, password} = req.body;
+
+        const userExist = await User.find({username});
+
+        if(userExist){
+            return res.json({message: " User Already Exist"});
+        }
 
         const newUser = new User({username, email, password});
 

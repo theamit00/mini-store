@@ -5,6 +5,17 @@ const {createToken} = require('../utilities/token');
 // require('dotenv/config');
 const passport = require('passport');
 
+
+router.use((req,res,next)=>{
+
+    if(req.user){
+      // res.send(req.user);
+      return res.redirect('/');
+    }
+    next();
+
+})
+
 router.get('/google', passport.authenticate('google', {scope: ['email','profile']}));
 
 router.get('/google/callback',

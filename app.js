@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override')
 const passport = require('passport');
 const path = require('path');
+const ExpressError = require('./utilities/expressError');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -31,9 +32,9 @@ const userRoutes = require('./routes/user');
 const adminRoutes = require('./routes/admin');
 const productRoutes = require('./routes/product');
 const cartRoutes = require('./routes/cart');
-const { verifyToken } = require('./utilities/token');
+const { error } = require('console');
 
-app.use(async (req,res,next)=>{
+app.use((req,res,next)=>{
     
    
     passport.authenticate('jwt', function(err, user, info) {
@@ -52,21 +53,6 @@ app.use(async (req,res,next)=>{
 
     })(req, res, next);
 
-
-    // try {
-    //     const token = req.signedCookies.AT;
-    //     let user = null;
-    //     if(token){
-    //         user = await verifyToken(token)
-    //     }
-
-    //     res.locals.user = user;
-    //     console.log(res.locals.user);
-
-    //     next();
-    // } catch (error) {
-    //     next(error);
-    // }
 })
 
 app.use('/', productRoutes);
@@ -75,9 +61,13 @@ app.use('/cart',cartRoutes);
 app.use('/admin',adminRoutes);
 
 
-app.all('*', (req,res)=>{
+app.all('*', (req,res,next)=>{
 
-    res.status(404).render('error/pagenotfound');
+    // res.status(404).render('error/pagenotfound');
+
+    const error = new ExpressError('Page Not Found',404);
+
+    next(error);
 
 })
 
@@ -85,13 +75,13 @@ app.all('*', (req,res)=>{
 app.use((err,req,res,next)=>{
 
     // console.log(err);
-    // const {status = 500} = err; // default error
+    const {status = 500} = err; // default status if no status
 
-    // if(!err) err.message = 'Hamra Code Phat Gya';
+    if(!err) err.message = 'Hamra Code Phat Gya';
 
-    // console.log('phat gaya');
+    res.status(status).render('error/error',{err});
 
-    res.send(err);
+    // res.send(err);
 })
 
 // Start Server

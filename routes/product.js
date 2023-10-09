@@ -108,9 +108,13 @@ router.delete('/product/:id', isLoggedIn, isAdmin, async (req,res,next)=>{
 
 router.patch('/products', isLoggedIn, isAdmin, async (req,res)=>{
 
-    const {gst} = req.body;
+    try {
+        const {gst} = req.body;
 
-    res.send(gst);
+        res.send(gst);
+    } catch (error) {
+        next(error);
+    }
 
 })
 
