@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
 const { isLoggedIn, isAdmin, validateProduct } = require('../middleware');
+const product = require('../models/product');
 // const { verifyToken } = require('../utilities/token');
 
 
@@ -111,7 +112,20 @@ router.patch('/products', isLoggedIn, isAdmin, async (req,res)=>{
     try {
         const {gst} = req.body;
 
-        res.send(gst);
+        const products = await Product.find({});
+
+        products.forEach(async (product)=>{
+
+            try {
+                product.gst = gst;
+
+                await product.save();
+            } catch (error) {
+                next(error);
+            }
+        })
+
+        res.redirect('/');
     } catch (error) {
         next(error);
     }
