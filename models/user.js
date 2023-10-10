@@ -13,7 +13,7 @@ const userSchema = new Schema({
 
     email: {
         type: String,
-        required: true,
+        // required: true,
         unique: true
     },
 
@@ -38,6 +38,10 @@ const userSchema = new Schema({
         ref: 'Cart'
     },
     googleId: {
+        type: String,
+        default: null
+    },
+    facebookId: {
         type: String,
         default: null
     }

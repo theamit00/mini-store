@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-
+const {createToken} = require('../utilities/token');
 
 
 router.get('/facebook',
@@ -9,14 +9,26 @@ router.get('/facebook',
 
 router.get('/facebook/callback',
   passport.authenticate('facebook', { 
-    failureRedirect: '/login' 
+    failureRedirect: '/login',
+    session: false,
 }),
-  function(req, res) {
+  async function(req, res, next) {
 
-    res.send(req.user)
+    try {
+      const {user} = req;
 
-    // Successful authentication, redirect home.
-    res.redirect('/');
+      const token = await createToken(user);
+
+      res.cookie('AT', token,{
+        expires : new Date(Date.now() + 1000 * 60 * 30),
+        httpOnly : true,
+        signed : true
+    });
+      res.redirect('/');
+    } catch (error) {
+      next(error)
+    }
+
   });
 
 module.exports = router;

@@ -27,15 +27,33 @@ a{
     text-decoration: none;
 }
 
+.btn-social{
+    border-color: rgba(0,0,0,0.2);
+    color: #fff;
+}
+
+.btn-social:hover{
+    color: #fff;
+}
+
 .btn-google{
     color: #fff;
-    background-color: #dd4b39;
+    background-color: rgb(221, 75, 57);
     border-color: rgba(0,0,0,0.2);
 }
 
 .btn-google:hover{
-    background-color: #c23321;
+    background-color: rgb(194, 51, 33);
+}
+
+.btn-facebook{
     color: #fff;
+    background-color: rgb(24, 119, 242);;
+    border-color: rgba(0,0,0,0.2);
+}
+
+.btn-facebook:hover{
+    background-color: rgb(8, 84, 170);
 }
 
 .card-img-top {
