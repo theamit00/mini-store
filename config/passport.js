@@ -60,7 +60,7 @@ passport.use(new GoogleStrategy({
 
     const { _json } = profile;
 
-    console.log(profile);
+    // console.log(profile);
 
     const user = {
 
