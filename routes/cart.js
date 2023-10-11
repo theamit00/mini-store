@@ -54,8 +54,12 @@ router.post('/', async (req, res, next) => {
         const foundProduct = await Product.findById(productId);
 
         if (!foundProduct) {
-            res.status(404).send('Product not found');
-            return;
+
+            const message = 'Product not found';
+
+            throw new ExpressError(message,401);
+            // res.status(404).send('Product not found');
+            // return;
         }
 
         const price = foundProduct.price;
@@ -152,7 +156,7 @@ router.post('/checkout', isLoggedIn, async (req, res, next) => {
             const deletedCart = await Cart.findByIdAndDelete(cart._id);
         }else{
 
-            res.render('other/checkedOut',{success:false});
+            return res.render('other/checkedOut',{success:false});
 
         }
 

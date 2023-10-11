@@ -27,7 +27,7 @@ router.get('/register', (req,res)=>{
 
     if(!req.user){
         // console.log(req.user);
-        res.render('user/register');
+        return res.render('user/register');
     }
     res.redirect('/');
 

@@ -107,23 +107,29 @@ router.delete('/product/:id', isLoggedIn, isAdmin, async (req,res,next)=>{
     }
 })
 
-router.patch('/products', isLoggedIn, isAdmin, async (req,res)=>{
+router.patch('/products', isLoggedIn, isAdmin, async (req,res,next)=>{
 
     try {
         const {gst} = req.body;
 
         const products = await Product.find({});
 
-        products.forEach(async (product)=>{
+        for(let product of products){
 
-            try {
-                product.gst = gst;
+            product.gst = gst;
+            await product.save();
+        }
 
-                await product.save();
-            } catch (error) {
-                next(error);
-            }
-        })
+        // products.forEach(async (product)=>{
+
+        //     try {
+        //         product.gst = gst;
+
+        //         await product.save();
+        //     } catch (error) {
+        //         next(error);
+        //     }
+        // })
 
         res.redirect('/');
     } catch (error) {

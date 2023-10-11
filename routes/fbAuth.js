@@ -23,7 +23,7 @@ router.get('/facebook/callback',
         expires : new Date(Date.now() + 1000 * 60 * 30),
         httpOnly : true,
         signed : true
-    });
+      });
       res.redirect('/');
     } catch (error) {
       next(error)
