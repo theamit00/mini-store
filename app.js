@@ -32,7 +32,7 @@ const userRoutes = require('./routes/user');
 const adminRoutes = require('./routes/admin');
 const productRoutes = require('./routes/product');
 const cartRoutes = require('./routes/cart');
-const { error } = require('console');
+const codingBlocksRoutes = require('./routes/coding-blocks/scholarship');
 
 app.use((req,res,next)=>{
     
@@ -59,7 +59,7 @@ app.use('/', productRoutes);
 app.use('/user', userRoutes);
 app.use('/cart',cartRoutes);
 app.use('/admin',adminRoutes);
-
+app.use('/codingblocks',codingBlocksRoutes);
 
 app.all('*', (req,res,next)=>{
 
